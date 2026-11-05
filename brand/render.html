@@ -1,0 +1,74 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@500&family=Alfa+Slab+One&family=Special+Elite&display=swap">
+<style>*{box-sizing:border-box;margin:0}body{background:#cfc8bb;overflow:hidden;font-family:"DM Mono",monospace}</style></head><body><div id="v"></div>
+<script>
+const INK = '#161412', RED = '#c8322b', BLUE = '#1f3f8a', CREAM = '#f2ead7';
+
+// A homing pigeon in profile, facing right: round head, short beak with the pale cere, a full chest, cropped by the bottom edge.
+// The neck band is where a pigeon shimmers; here it is the one accent.
+const BUST = (band, eye) => `
+<path d="M33 13C35 9.5 39 8.3 42.5 8.8C46 9.5 47.6 12.5 47.2 16C47 19 46.2 21 45.6 22.6C51 27 55 33.5 55.6 41.5C56.1 49 54.6 57 52.6 64L4 64C8.5 54 14.5 45 22.5 37C27 32.5 30 27.5 31 22.5C31.6 19 32.1 15.6 33 13Z" fill="${INK}"/>
+<path d="M46.6 13.8L53.6 16.9L46.7 19.2Z" fill="${INK}"/>
+<ellipse cx="47.1" cy="14.9" rx="1.9" ry="1.15" fill="${CREAM}"/>
+<circle cx="41.6" cy="14.6" r="1.8" fill="${eye}"/><circle cx="41.6" cy="14.6" r=".7" fill="${INK}"/>
+<path d="M32.4 23.5C36.5 22.6 41.5 23.2 45.4 23.6C47.6 26.5 49 29.8 49.4 33.4C44.5 35.6 37.5 35.4 31.2 33.4C30.6 30 31.4 26.6 32.4 23.5Z" fill="${band}"/>`;
+
+// A: the bust on postal red, cream neck band
+const A = `<rect width="64" height="64" fill="${RED}"/>${BUST(CREAM, CREAM)}`;
+
+// B: the bust on cream inside an airmail border of red and blue stripes; the band is red
+const stripes = [...Array(16)].map((_, i) => `<path d="M${i * 8 - 64} 0L${i * 8 - 60} 0L${i * 8 + 4} 64L${i * 8} 64Z" fill="${i % 2 ? BLUE : RED}"/>`).join('');
+const B = `<rect width="64" height="64" fill="${CREAM}"/><g>${[...Array(40)].map((_, i) => `<path d="M${i * 6 - 64} 0l3 0l64 64l-3 0z" fill="${i % 2 ? BLUE : RED}"/>`).join('')}</g>
+<rect x="5" y="5" width="54" height="54" fill="${CREAM}"/><g transform="translate(5 5) scale(.84375)">${BUST(RED, RED)}</g>`;
+
+// C: in flight, wings raised, a letter with a red seal held in the feet, on airmail blue
+const C = `<rect width="64" height="64" fill="${BLUE}"/>
+<path d="M31 30C27 21 19 12 6 6C9 9 11 13 12 16C9 15 7 15.5 5 16C11 19 17 24 23 31Z" fill="${INK}"/>
+<path d="M33.5 29C37 19 44 10 58 3C55 7 53 11 52.5 14C55 13 57 13.5 59 14.5C52 18 46 24 41 31Z" fill="${INK}"/>
+<path d="M10 33C16 29 26 28 34 29C40 29.5 45 28 48 25.5C50.5 23.5 54 23.5 55.5 26L59 27.5 55.3 28.6C54.5 32 51 36 44 38.5C36 41 26 41 18 39L6 40.5 10 37 4 35Z" fill="${INK}"/>
+<circle cx="52.3" cy="25.7" r="1" fill="${CREAM}"/>
+<path d="M33 40L31 45M37 40L37 45" stroke="${INK}" stroke-width="1.6"/>
+<rect x="24" y="45" width="20" height="13" rx="1" fill="${CREAM}"/><path d="M24 45L34 52.5L44 45" fill="none" stroke="${INK}" stroke-width="1"/>
+<circle cx="34" cy="52.5" r="2.6" fill="${RED}"/>`;
+
+const TILE = { A, B, C };
+const svg = (k, s, r = 0) => `<svg width="${s}" height="${s}" viewBox="0 0 64 64"><clipPath id="c${k}${s}${r}"><rect width="64" height="64" rx="${r}"/></clipPath><g clip-path="url(#c${k}${s}${r})">${TILE[k]}</g></svg>`;
+// airmail stripes along an edge
+const AIR = (w, y, h) => `<g>${[...Array(Math.ceil(w / 24) + 4)].map((_, i) => `<path d="M${i * 24 - 24} ${y + h}L${i * 24 - 24 + h} ${y}L${i * 24 - 24 + h + 12} ${y}L${i * 24 - 12} ${y + h}Z" fill="${i % 2 ? BLUE : RED}"/>`).join('')}</g>`;
+// the X header, drawn around the avatar in the lower left: a flight path leaves the avatar and ends at a sealed letter
+const HEADER = () => {
+  const w = 1500, h = 500;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><rect width="${w}" height="${h}" fill="${CREAM}"/>
+  ${AIR(w, 0, 18)}
+  <path d="M300 360C460 120 860 60 1250 210" fill="none" stroke="${INK}" stroke-width="3" stroke-dasharray="10 12"/>
+  <g transform="translate(1230 180) rotate(8)"><rect x="0" y="0" width="150" height="100" rx="4" fill="#fffdf7" stroke="${INK}" stroke-width="3"/><path d="M0 0L75 58L150 0" fill="none" stroke="${INK}" stroke-width="3"/><circle cx="75" cy="58" r="17" fill="${RED}" stroke="${INK}" stroke-width="2"/></g>
+  <g transform="translate(470 250) rotate(-2)"><rect width="640" height="150" fill="#fffdf7" stroke="#d8cdb6" stroke-width="2"/>
+  <text x="26" y="34" font-family="Libre Franklin, sans-serif" font-size="14" letter-spacing="4" fill="${RED}">TELEGRAM</text>
+  <text x="26" y="82" font-family="Special Elite" font-size="34" fill="${INK}">IF I DON'T COME HOME STOP</text>
+  <text x="26" y="126" font-family="Special Elite" font-size="34" fill="${INK}">THE BIRD FLIES STOP</text></g>
+  <g transform="translate(1360 430) rotate(-14)"><circle r="52" fill="none" stroke="${INK}" stroke-width="3" opacity=".75"/><text y="-6" text-anchor="middle" font-family="Special Elite" font-size="17" fill="${INK}" opacity=".8">HOMER</text><text y="16" text-anchor="middle" font-family="Special Elite" font-size="17" fill="${INK}" opacity=".8">POST</text></g>
+  </svg>`;
+};
+const OG = () => {
+  const w = 1200, h = 630;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><rect width="${w}" height="${h}" fill="${CREAM}"/>${AIR(w, 0, 18)}${AIR(w, h - 18, 18)}
+  <text x="80" y="230" font-family="Alfa Slab One" font-size="76" fill="${INK}">If I don't come</text>
+  <text x="80" y="320" font-family="Alfa Slab One" font-size="76" fill="${INK}">home, <tspan fill="${RED}">the bird</tspan></text>
+  <text x="80" y="410" font-family="Alfa Slab One" font-size="76" fill="${RED}">flies.</text>
+  <text x="82" y="490" font-family="Special Elite" font-size="26" fill="${INK}">A WILL FOR YOUR SOLANA WALLET STOP</text>
+  <g transform="translate(830 150) rotate(4)"><rect x="-14" y="-14" width="308" height="308" fill="#fffdf7"/><g transform="scale(${280 / 64})">${A}</g></g></svg>`;
+};
+const q = new URLSearchParams(location.search).get('v') || 'sheet';
+if (q === 'header' || q === 'header-x' || q === 'og') {
+  document.body.style.cssText = q === 'og' ? 'width:1200px;height:630px' : 'width:1500px;height:' + (q === 'header-x' ? 680 : 500) + 'px;position:relative;background:#fff';
+  // header-x: a preview with the avatar where X puts it, not for upload
+  document.getElementById('v').innerHTML = q === 'og' ? OG() : HEADER() + (q === 'header-x' ? `<div style="position:absolute;left:42px;top:338px;width:336px;height:336px;border-radius:50%;overflow:hidden;border:10px solid #fff">${svg('A', 316)}</div>` : '');
+} else if (q === 'sheet') {
+  document.body.style.cssText = 'width:1320px;height:560px;padding:40px;display:flex;gap:40px';
+  document.getElementById('v').outerHTML = Object.keys(TILE).map((k) => `<div style="text-align:center;color:${INK}">${svg(k, 400)}<div style="display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px"><b style="font-size:28px">${k}</b>${svg(k, 48, 10)}<span style="display:inline-block;border-radius:50%;overflow:hidden;width:48px;height:48px">${svg(k, 48)}</span></div></div>`).join('');
+} else {
+  const [k, s] = q.split('-');
+  document.body.style.cssText = `width:${s}px;height:${s}px`;
+  document.getElementById('v').innerHTML = svg(k, +s);
+}
+</script></body></html>

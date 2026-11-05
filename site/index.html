@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOMER · If I don't come home, the bird flies.</title>
+<meta name="description" content="A will for your Solana wallet. Leave SOL or tokens to someone in Jupiter Lock. Check in now and then. If you stop, the bird flies and they collect. No keys held, no contract of ours.">
+<meta property="og:title" content="HOMER · If I don't come home, the bird flies.">
+<meta property="og:description" content="A will for your Solana wallet. Check in now and then. If you stop, they collect.">
+<meta property="og:image" content="https://homersol.fun/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://homersol.fun/og-image.png">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Libre+Franklin:wght@400;500;700&family=Special+Elite&display=swap">
+<style>
+:root{--red:#c8322b;--blue:#1f3f8a;--cream:#f2ead7;--paper:#fbf6ea;--ink:#161412;--mute:#6a6157;--line:#d8cdb6;--green:#2f6b45;--slab:"Alfa Slab One",Georgia,serif;--type:"Special Elite","Courier New",monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font:17px/1.6 "Libre Franklin",system-ui,sans-serif;overflow-x:hidden}
+a{color:var(--blue)}
+/* the airmail edge runs along the top of every page */
+.airmail{height:12px;background:repeating-linear-gradient(135deg,var(--red) 0 16px,var(--paper) 16px 24px,var(--blue) 24px 40px,var(--paper) 40px 48px)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+header{display:flex;align-items:center;gap:22px;padding:16px 20px;max-width:1060px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);font:400 26px var(--slab);letter-spacing:.04em}
+.brand img{width:38px;height:38px;border-radius:6px}
+nav{display:flex;gap:6px;margin-left:auto}
+nav a{color:var(--ink);text-decoration:none;font:500 14px "Libre Franklin";padding:7px 12px;border-radius:999px}
+nav a.on,nav a:hover{background:var(--ink);color:var(--cream)}
+.btn{display:inline-block;background:var(--red);color:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:10px 18px;font:700 15px "Libre Franklin";cursor:pointer;text-decoration:none;box-shadow:3px 3px 0 var(--ink)}
+.btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.btn.blue{background:var(--blue)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn.small{padding:5px 10px;font-size:13px;box-shadow:2px 2px 0 var(--ink)}
+.btn:disabled{opacity:.5;cursor:wait}
+h1{font:400 clamp(40px,6.4vw,72px)/1.02 var(--slab)}
+h1 em{font-style:normal;color:var(--red)}
+h2{font:400 34px/1.1 var(--slab);margin-bottom:10px}
+h3{font:400 22px/1.2 var(--slab);margin:4px 0 8px}
+.lede{font-size:20px;color:var(--mute);max-width:540px;margin-top:18px}
+/* hero: a telegram slip on the left, a postage stamp on the right */
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:center;padding:40px 0 20px}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+.stamp{justify-self:center;width:min(300px,80vw);aspect-ratio:1;padding:18px;transform:rotate(3deg);filter:drop-shadow(0 6px 10px rgba(0,0,0,.2));
+  /* perforation: paper with round holes on a 20px grid; the picture covers the middle, so holes show only along the edge */
+  background:radial-gradient(circle at 10px 10px,transparent 5.5px,#fffdf7 6px) -10px -10px/20px 20px}
+.stamp img{width:100%;height:100%;display:block}
+.stampwrap{position:relative;justify-self:center}
+.postmark{position:absolute;left:-46px;top:-22px;width:130px;height:130px;border:3px solid var(--ink);border-radius:50%;opacity:.75;display:grid;place-items:center;text-align:center;font:13px/1.2 var(--type);transform:rotate(-12deg);background:repeating-linear-gradient(0deg,transparent 0 9px,rgba(22,20,18,.0) 9px 10px)}
+.postmark::after{content:"";position:absolute;left:115px;top:40px;width:120px;height:46px;background:repeating-linear-gradient(0deg,var(--ink) 0 3px,transparent 3px 11px)}
+.telegram{background:var(--paper);border:1px solid var(--line);padding:18px 22px;margin-top:24px;font:17px/1.7 var(--type);max-width:560px;box-shadow:0 1px 0 var(--line)}
+.telegram small{display:block;font:11px "Libre Franklin";letter-spacing:.14em;color:var(--red);margin-bottom:4px}
+/* the mail counter as postmarks */
+.marks{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin:40px 0}
+.mark{border:3px double var(--ink);border-radius:50%;aspect-ratio:1;display:grid;place-content:center;text-align:center;max-width:180px;width:100%;justify-self:center;background:var(--paper)}
+.mark b{font:400 34px var(--slab);display:block}
+.mark span{font:12px var(--type);color:var(--mute)}
+/* envelopes for the three steps */
+.envelopes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin:50px 0}
+.env{background:var(--paper);border:2px solid var(--ink);padding:24px 22px 22px;position:relative;box-shadow:5px 5px 0 var(--ink)}
+.env::before{content:"";position:absolute;inset:0 0 auto 0;height:0;border-left:0 solid transparent;border-right:0 solid transparent}
+.env .no{position:absolute;top:-16px;right:16px;width:44px;height:44px;border-radius:50%;background:var(--red);color:var(--paper);display:grid;place-items:center;font:400 20px var(--slab);border:2px solid var(--ink)}
+.env .lbl{font:12px var(--type);color:var(--red);letter-spacing:.1em}
+.rules{background:var(--paper);border:2px solid var(--ink);margin:56px 0;padding:28px 30px}
+.rules ol{margin:14px 0 0 22px;display:grid;grid-template-columns:1fr 1fr;gap:10px 34px}
+.rules li::marker{font-family:var(--slab);color:var(--red)}
+/* app */
+.panel{background:var(--paper);border:2px solid var(--ink);padding:24px;margin:26px 0;box-shadow:5px 5px 0 var(--ink)}
+.next{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;border-bottom:2px dashed var(--line);padding-bottom:16px;margin-bottom:16px}
+.next b{font:400 46px/1 var(--slab);color:var(--blue)}
+.next.late b{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;font:12px var(--type);letter-spacing:.08em;color:var(--mute);padding:8px 10px;border-bottom:2px solid var(--ink)}
+td{padding:11px 10px;border-bottom:1px dashed var(--line);vertical-align:middle}
+td.acts{text-align:right;white-space:nowrap}
+.scroll{overflow-x:auto}
+.addr{font:14px var(--type)}
+form.letter{display:grid;grid-template-columns:1.2fr .8fr;gap:14px 18px}
+label{display:block;font:12px var(--type);letter-spacing:.08em;color:var(--mute);margin-bottom:5px}
+input,select{width:100%;background:var(--cream);border:2px solid var(--ink);border-radius:4px;padding:10px 12px;font:15px var(--type);color:var(--ink)}
+.full{grid-column:1/-1}
+.note{font-size:14px;color:var(--mute)}
+.chip{font:12px var(--type);padding:2px 9px;border-radius:999px;border:1.5px solid}
+.chip.flown{color:var(--red)}.chip.held{color:var(--green)}
+.empty{border:2px dashed var(--line);padding:22px;color:var(--mute);background:var(--paper)}
+.ca{display:none;margin-top:20px;gap:10px;align-items:center;flex-wrap:wrap;font:13px var(--type)}
+.ca code{word-break:break-all;background:var(--paper);border:1px solid var(--line);padding:4px 8px}
+.docs h3{margin-top:26px}
+.docs p,.docs li{max-width:720px}
+.docs ul{margin:8px 0 0 20px}
+#status{display:none;position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:12px 18px;border-radius:6px;font:14px var(--type);max-width:min(92vw,620px);z-index:9}
+#status.err{background:var(--red)}
+footer{margin-top:80px;padding:0 0 46px;text-align:center;font:13px var(--type);color:var(--mute)}
+footer .airmail{margin-bottom:26px}
+footer a{color:var(--mute)}
+.page{display:none}.page.on{display:block}
+@media (max-width:800px){
+  nav{display:none}
+  header .btn{margin-left:auto}
+  .hero,.envelopes,.rules ol,form.letter{grid-template-columns:1fr}
+  .marks{grid-template-columns:repeat(2,1fr)}
+  .postmark{left:-14px;width:100px;height:100px;font-size:11px}
+  .postmark::after{display:none}
+  .next b{font-size:34px}
+}
+</style>
+</head>
+<body>
+<div class="airmail"></div>
+<header>
+  <a class="brand" href="#/"><img src="logo.png" alt="">HOMER</a>
+  <nav><a href="#/letters" data-r="letters">My letters</a><a href="#/collect" data-r="collect">Collect mail</a><a href="#/rules" data-r="rules">Postal rules</a><a href="https://x.com/homerdotfun" target="_blank" rel="noopener">X</a></nav>
+  <button class="btn ghost small" id="connect" type="button">Connect</button>
+</header>
+
+<main class="wrap">
+<section class="page" id="p-home">
+  <div class="hero">
+    <div>
+      <h1>If I don't come home, <em>the bird flies.</em></h1>
+      <p class="lede">A will for your Solana wallet. Leave SOL or tokens to someone. Check in now and then with one signature. If you ever stop, the bird flies and they collect.</p>
+      <div class="telegram"><small>TELEGRAM</small>COINS LEFT TO A WIFE STOP TO A SON STOP TO A FRIEND STOP NO KEYS HANDED OVER STOP NO SEED PHRASE IN A DRAWER STOP</div>
+      <div class="cta"><a class="btn" href="#/letters">Write a letter</a><a class="btn ghost" href="#/collect">Any mail for me?</a></div>
+      <div class="ca" id="caRow"><span>$HOMER</span><code id="ca"></code><button class="btn small ghost" id="copyCa" type="button">Copy</button><a href="#" id="buy" target="_blank" rel="noopener">Buy on pump.fun</a></div>
+    </div>
+    <div class="stampwrap"><div class="postmark">HOMER<br>POST<br>SOLANA</div><div class="stamp"><img src="logo.png" alt="Homer, a homing pigeon"></div></div>
+  </div>
+
+  <div class="marks" id="marks">
+    <div class="mark"><b>·</b><span>letters in the loft</span></div><div class="mark"><b>·</b><span>senders</span></div><div class="mark"><b>·</b><span>SOL in the mail</span></div><div class="mark"><b>·</b><span>next flight</span></div>
+  </div>
+
+  <div class="envelopes">
+    <div class="env"><span class="no">1</span><span class="lbl">WRITE</span><h3>Write a letter</h3><p>Choose what to leave, who gets it, and how often you check in: every 30, 90, 180 or 365 days. It goes into Jupiter Lock, addressed to them.</p></div>
+    <div class="env"><span class="no">2</span><span class="lbl">COME HOME</span><h3>Say "I'm home"</h3><p>Before your check-in date, sign once. Every letter comes back to you and is posted again with a new date. Even the rent comes back.</p></div>
+    <div class="env"><span class="no">3</span><span class="lbl">THE BIRD FLIES</span><h3>If you don't come home</h3><p>Miss a check-in and the letter is delivered. Your recipient connects their wallet and collects. Until then, only you can take it back.</p></div>
+  </div>
+
+  <div class="rules" id="rules-short">
+    <h2>Postal rules</h2>
+    <ol>
+      <li>We hold no keys and no funds. Each letter is a Jupiter Lock escrow; Jupiter Lock was audited by OtterSec and Sec3.</li>
+      <li>We wrote no contract. The page builds the transaction in your browser from one open file.</li>
+      <li>Letters cannot be traded or spent. You can take them back at any moment.</li>
+      <li>Miss a check-in and your recipient can collect. That is the point. Pick a gap long enough for travel and hospitals.</li>
+      <li>Your recipient needs a wallet and about 0.003 SOL to collect. Someone else can pay that fee.</li>
+      <li>Letters are public on chain: what, how much, to whom, when. This is not a legal will.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="page" id="p-letters">
+  <h2>My letters</h2>
+  <p class="note" id="lettersIntro">Connect your wallet to see and write your letters.</p>
+  <div class="panel" id="lettersPanel" style="display:none">
+    <div class="next" id="next"></div>
+    <div class="scroll"><table id="letters"></table></div>
+    <div class="cta"><button class="btn blue" id="home" type="button">I'm home: check in</button><button class="btn ghost" id="ics" type="button">Remind me</button><button class="btn ghost" id="mailLink" type="button">Copy the collect link</button></div>
+  </div>
+  <div class="panel" id="writePanel" style="display:none">
+    <h3>Write a letter</h3>
+    <form class="letter" id="writeForm" autocomplete="off">
+      <div><label for="asset">WHAT</label><select id="asset"></select></div>
+      <div><label for="amount">HOW MUCH</label><input id="amount" inputmode="decimal" placeholder="0.0"></div>
+      <div><label for="to">TO (THEIR WALLET)</label><input id="to" placeholder="Solana address" spellcheck="false"></div>
+      <div><label for="gap">CHECK IN EVERY</label><select id="gap"><option value="30">30 days</option><option value="90">90 days</option><option value="180" selected>180 days</option><option value="365">365 days</option></select></div>
+      <div class="full"><button class="btn" id="sendBtn" type="submit">Post it</button> <span class="note" id="feeNote"></span></div>
+    </form>
+  </div>
+</section>
+
+<section class="page" id="p-collect">
+  <h2>Collect mail</h2>
+  <p class="note">See letters addressed to a wallet, and collect them once they have flown.</p>
+  <form class="panel letter" id="collectForm" autocomplete="off" style="grid-template-columns:1fr auto;align-items:end">
+    <div><label for="who">RECIPIENT'S WALLET</label><input id="who" placeholder="Solana address" spellcheck="false"></div>
+    <div><button class="btn blue" type="submit">Check the box</button></div>
+  </form>
+  <div id="mail"></div>
+</section>
+
+<section class="page docs" id="p-rules">
+  <h2>Postal rules, in full</h2>
+  <h3>The letter</h3>
+  <p>A letter is a Jupiter Lock escrow (program <span class="addr">LocpQgucEQHbqNABEYvBvwoxCPsSbG91A1QaQhQQqjn</span>) with three settings: the recipient is the person you chose, everything unlocks at one moment (your check-in date), and only you can cancel it or change the recipient. A small metadata account named HOMER marks it, so this page can find your letters. SOL is wrapped for the escrow and unwrapped again when it comes back or is collected.</p>
+  <h3>Coming home</h3>
+  <p>Checking in cancels each letter, which returns everything to you and closes the escrow so its rent comes back too, then posts the same amount to the same recipient with a new date. One transaction per letter, all signed at once. Each letter keeps its own gap.</p>
+  <h3>When the bird flies</h3>
+  <p>When a check-in date passes, the letter can be collected by its recipient and nobody else. If you come back after the date but before they collect, you can still take it back.</p>
+  <h3>What we checked</h3>
+  <ul>
+    <li>Every step was simulated against mainnet with real accounts: posting SOL and a Token-2022 token, taking a letter back (everything returned, escrow closed), a full check-in in one transaction, changing the recipient, the recipient failing to change it, failing to collect early, and collecting SOL after the date.</li>
+    <li>The code that builds every transaction is one file, <a href="will.js" target="_blank" rel="noopener">will.js</a>.</li>
+    <li>Jupiter Lock was audited by OtterSec and Sec3 in August 2024.</li>
+  </ul>
+  <h3>$HOMER</h3>
+  <p id="tokenText">Check-ins are always free. A new letter carries a small postage fee in SOL, and all of it buys back $HOMER. Holders post letters for free.</p>
+</section>
+</main>
+
+<footer><div class="airmail"></div>HOMER POST · If I don't come home, the bird flies. · <a href="#/rules">Postal rules</a> · <a href="will.js" target="_blank" rel="noopener">will.js</a> · <a href="https://x.com/homerdotfun" target="_blank" rel="noopener">x.com/homerdotfun</a></footer>
+<div id="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
+<script src="will.js"></script>
+<script>
+(() => {
+  const W = window.solanaWeb3, K = window.HomerWill;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const short = (a) => `${String(a).slice(0, 4)}…${String(a).slice(-4)}`;
+  const DAY = 86400;
+  let wallet = null, provider = null, config = { fee_lamports: 0 }, mine = [], assets = {}, holdings = [];
+
+  const status = (text, err, keep) => { const s = $('status'); s.textContent = text || ''; s.style.display = text ? 'block' : 'none'; s.className = err ? 'err' : ''; clearTimeout(status.t); if (text && !keep) status.t = setTimeout(() => (s.style.display = 'none'), err ? 9000 : 5000); };
+  const api = async (path) => { const r = await fetch(path); const j = await r.json().catch(() => ({})); if (!r.ok) throw new Error(j.error || 'something went wrong'); return j; };
+  async function rpc(method, params) {
+    const r = await fetch('/rpc', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params }) });
+    const j = await r.json();
+    if (j.error) throw new Error(j.error.message || 'RPC error');
+    return j.result;
+  }
+  const until = (t) => { const s = t - Date.now() / 1000; if (s <= 0) return 'passed'; const d = Math.floor(s / DAY); return d >= 1 ? `${d} day${d === 1 ? '' : 's'}` : `${Math.max(1, Math.floor(s / 3600))} h`; };
+  const date = (t) => new Date(t * 1000).toISOString().slice(0, 10);
+  const fmt = (raw, dec) => { const n = Number(BigInt(raw)) / 10 ** (dec ?? 0); return n.toLocaleString('en-US', { maximumFractionDigits: n < 1 ? 6 : 3 }); };
+  const toRaw = (txt, dec) => { const [a, b = ''] = String(txt).trim().split('.'); if (!/^\d*$/.test(a) || !/^\d*$/.test(b)) throw new Error('that amount looks wrong'); return BigInt((a || '0') + b.padEnd(dec, '0').slice(0, dec)); };
+  const sym = (m, list) => (m === K.WSOL.toBase58() ? 'SOL' : list[m]?.symbol ? '$' + list[m].symbol : short(m));
+  const asLetter = (s) => ({ escrow: new W.PublicKey(s.escrow), recipient: new W.PublicKey(s.heir), mint: new W.PublicKey(s.mint), creator: new W.PublicKey(s.owner), token_2022: s.token_2022, total: BigInt(s.amount), claimed: 0n });
+
+  // ---------- wallet ----------
+  const providerOf = () => window.phantom?.solana || window.solana || window.solflare || null;
+  async function connect() {
+    provider = providerOf();
+    if (!provider) { window.open('https://phantom.app/', '_blank', 'noopener'); return; }
+    try { const r = await provider.connect(); wallet = (r?.publicKey || provider.publicKey).toString(); paintWho(); route(); } catch {}
+  }
+  const paintWho = () => { $('connect').textContent = wallet ? short(wallet) : 'Connect'; };
+  $('connect').onclick = () => (wallet ? null : connect());
+  (async () => { const p = providerOf(); if (p?.isConnected && p.publicKey) { provider = p; wallet = p.publicKey.toString(); paintWho(); route(); } })();
+
+  async function build(ixs, units) {
+    const tx = new W.Transaction();
+    tx.add(W.ComputeBudgetProgram.setComputeUnitLimit({ units }), W.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 60000 }), ...ixs);
+    tx.feePayer = new W.PublicKey(wallet);
+    tx.recentBlockhash = (await rpc('getLatestBlockhash', [{ commitment: 'confirmed' }])).value.blockhash;
+    return tx;
+  }
+  async function sendSigned(signed) {
+    const raw = signed.serialize();
+    let b64 = ''; const bytes = new Uint8Array(raw); for (let i = 0; i < bytes.length; i++) b64 += String.fromCharCode(bytes[i]);
+    const sig = await rpc('sendTransaction', [btoa(b64), { encoding: 'base64', preflightCommitment: 'confirmed', maxRetries: 3 }]);
+    for (let i = 0; i < 40; i++) {
+      await new Promise((r) => setTimeout(r, 1500));
+      const st = (await rpc('getSignatureStatuses', [[sig]])).value[0];
+      if (st?.err) throw new Error('the transaction failed on chain');
+      if (st && (st.confirmationStatus === 'confirmed' || st.confirmationStatus === 'finalized')) return sig;
+    }
+    return sig;
+  }
+  // the wallet signs first, then each fresh letter key: wallets may touch a transaction before signing
+  async function sendAll(list) {
+    const txs = await Promise.all(list.map((x) => build(x.ixs, x.units || 220000)));
+    const signed = list.length > 1 && provider.signAllTransactions ? await provider.signAllTransactions(txs) : [await provider.signTransaction(txs[0])];
+    const sigs = [];
+    for (let i = 0; i < signed.length; i++) { if (list[i].base) signed[i].partialSign(list[i].base); sigs.push(await sendSigned(signed[i])); }
+    return sigs;
+  }
+  const failed = (e) => status(/reject|denied|cancel/i.test(e?.message || '') ? 'Signature declined.' : e.message || 'Something went wrong', true);
+
+  // ---------- home ----------
+  async function home() {
+    try {
+      const s = await api('/v1/stats');
+      const cells = [[s.seals, 'letters in the loft'], [s.wills, 'senders'], [s.sol.toLocaleString('en-US', { maximumFractionDigits: 2 }), 'SOL in the mail'], [s.next_dawn ? until(s.next_dawn) : '·', 'next flight']];
+      $('marks').innerHTML = cells.map(([b, t]) => `<div class="mark"><b>${esc(b)}</b><span>${t}</span></div>`).join('');
+    } catch {}
+  }
+
+  // ---------- my letters ----------
+  async function loadHoldings() {
+    const [sol, a, b] = await Promise.all([rpc('getBalance', [wallet]), rpc('getTokenAccountsByOwner', [wallet, { programId: K.TOKEN.toBase58() }, { encoding: 'jsonParsed' }]), rpc('getTokenAccountsByOwner', [wallet, { programId: K.TOKEN_2022.toBase58() }, { encoding: 'jsonParsed' }])]);
+    const list = [{ mint: K.WSOL.toBase58(), raw: BigInt(Math.max(0, sol.value - 10000000)), decimals: 9, program: 'token' }];
+    for (const [r, program] of [[a, 'token'], [b, 'token2022']]) for (const t of r.value) {
+      const i = t.account.data.parsed.info;
+      if (i.mint === K.WSOL.toBase58() || i.tokenAmount.amount === '0') continue;
+      list.push({ mint: i.mint, raw: BigInt(i.tokenAmount.amount), decimals: i.tokenAmount.decimals, program });
+    }
+    const names = list.length > 1 ? await api('/v1/assets?ids=' + list.slice(1, 101).map((x) => x.mint).join(',')) : {};
+    holdings = list.map((x) => ({ ...x, symbol: x.mint === K.WSOL.toBase58() ? 'SOL' : names[x.mint]?.symbol || short(x.mint) }));
+    $('asset').innerHTML = holdings.map((h, i) => `<option value="${i}">${esc(h.symbol)} · ${fmt(h.raw, h.decimals)} free</option>`).join('');
+  }
+
+  async function letters() {
+    if (!wallet) { $('lettersIntro').innerHTML = 'Connect your wallet to see and write your letters. <button class="btn small" id="c2" type="button">Connect</button>'; $('c2').onclick = connect; $('lettersPanel').style.display = $('writePanel').style.display = 'none'; return; }
+    $('lettersIntro').textContent = 'Each letter below flies to its recipient on the date shown, unless you come home first.';
+    $('writePanel').style.display = 'block';
+    try {
+      const [w] = await Promise.all([api('/v1/will/' + wallet), loadHoldings()]);
+      mine = w.seals; assets = w.assets;
+      paintLetters(w.now);
+    } catch (e) { status(e.message, true); }
+    $('feeNote').textContent = config.fee_lamports ? `Postage: ${config.fee_lamports / 1e9} SOL for a new letter, all of it buys back $HOMER. Free for holders. Check-ins are always free.` : 'No postage. Check-ins are always free.';
+  }
+
+  function paintLetters(now) {
+    $('lettersPanel').style.display = 'block';
+    const actions = ['home', 'ics', 'mailLink'];
+    if (!mine.length) { $('next').innerHTML = '<span class="note">No letters yet. Write one below.</span>'; $('letters').innerHTML = ''; actions.forEach((id) => ($(id).style.display = 'none')); return; }
+    actions.forEach((id) => ($(id).style.display = ''));
+    const next = Math.min(...mine.map((s) => s.dawn)), late = next <= now;
+    $('next').className = 'next' + (late ? ' late' : '');
+    $('next').innerHTML = late ? '<b>A bird has flown</b><span>Its recipient can collect now. Check in to take it back before they do.</span>' : `<b>Check in within ${until(next)}</b><span class="note">by ${date(next)}, or the first bird flies</span>`;
+    $('letters').innerHTML = '<tr><th>WHAT</th><th>HOW MUCH</th><th>TO</th><th>FLIES ON</th><th></th></tr>' + mine.map((s, i) => `<tr><td>${esc(sym(s.mint, assets))}</td><td class="addr">${fmt(s.amount, assets[s.mint]?.decimals)}</td><td class="addr">${esc(short(s.heir))}</td><td>${s.dawn <= now ? '<span class="chip flown">flown</span>' : `<span class="chip held">${date(s.dawn)}</span>`}</td><td class="acts"><button class="btn small ghost" data-to="${i}" type="button">Change recipient</button> <button class="btn small ghost" data-back="${i}" type="button">Take back</button></td></tr>`).join('');
+  }
+
+  $('letters').addEventListener('click', async (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    const s = mine[Number(b.dataset.to ?? b.dataset.back)];
+    try {
+      if (b.dataset.to != null) {
+        const to = prompt('New recipient\'s Solana address');
+        if (!to) return;
+        let pk; try { pk = new W.PublicKey(to.trim()); } catch { throw new Error('that address looks wrong'); }
+        status('Sign to readdress the letter…', false, true);
+        await sendAll([{ ixs: K.changeHeir({ owner: new W.PublicKey(wallet), e: asLetter(s), heir: pk }), units: 60000 }]);
+        status('Readdressed.');
+      } else {
+        if (!confirm('Take this letter back? It returns to your wallet.')) return;
+        status('Sign to take it back…', false, true);
+        await sendAll([{ ixs: K.unseal({ owner: new W.PublicKey(wallet), e: asLetter(s) }), units: 200000 }]);
+        status('Back in your wallet.');
+      }
+      setTimeout(letters, 2500);
+    } catch (err) { failed(err); }
+  });
+
+  $('home').onclick = async () => {
+    if (!confirm(`Check in on ${mine.length} letter${mine.length === 1 ? '' : 's'}? Each keeps its own gap, counted from now. You sign once for all of them.`)) return;
+    $('home').disabled = true;
+    try {
+      const now = Math.floor(Date.now() / 1000), owner = new W.PublicKey(wallet);
+      const list = mine.map((s) => { const base = W.Keypair.generate(); const gap = Math.max(DAY, s.dawn - s.sealed); const r = K.renew({ owner, e: asLetter(s), dawn: now + gap, base: base.publicKey, now }); return { ixs: r.ixs, base, units: 260000 }; });
+      status(`Sign to check in on ${list.length} letter${list.length === 1 ? '' : 's'}…`, false, true);
+      await sendAll(list);
+      status('Home. Every letter has a new date.');
+      setTimeout(letters, 2500);
+    } catch (e) { failed(e); }
+    $('home').disabled = false;
+  };
+
+  $('writeForm').onsubmit = async (e) => {
+    e.preventDefault();
+    $('sendBtn').disabled = true;
+    try {
+      const h = holdings[Number($('asset').value)];
+      if (!h) throw new Error('pick what to leave');
+      const amount = toRaw($('amount').value, h.decimals);
+      if (amount <= 0n) throw new Error('enter an amount');
+      if (amount > h.raw) throw new Error('that is more than you have free');
+      let to; try { to = new W.PublicKey($('to').value.trim()); } catch { throw new Error('the recipient\'s address looks wrong'); }
+      if (to.toBase58() === wallet) throw new Error('the recipient must be another wallet');
+      const days = Number($('gap').value), now = Math.floor(Date.now() / 1000), base = W.Keypair.generate();
+      const program = h.program === 'token2022' ? K.TOKEN_2022 : K.TOKEN;
+      const r = K.seal({ owner: new W.PublicKey(wallet), heir: to, mint: new W.PublicKey(h.mint), program, amount, dawn: now + days * DAY, base: base.publicKey, now });
+      if (config.fee_lamports > 0 && config.fee_wallet && !(await isHolder())) r.ixs.push(K.transfer(new W.PublicKey(wallet), new W.PublicKey(config.fee_wallet), config.fee_lamports));
+      status('Sign to post it…', false, true);
+      await sendAll([{ ixs: r.ixs, base, units: 220000 }]);
+      status(`Posted. It flies to ${short(to.toBase58())} on ${date(now + days * DAY)} unless you come home first.`);
+      $('amount').value = ''; $('to').value = '';
+      setTimeout(letters, 2500);
+    } catch (err) { failed(err); }
+    $('sendBtn').disabled = false;
+  };
+
+  async function isHolder() {
+    if (!config.token) return false;
+    try {
+      const r = await rpc('getTokenAccountsByOwner', [wallet, { mint: config.token }, { encoding: 'jsonParsed' }]);
+      return r.value.reduce((t, a) => t + Number(a.account.data.parsed.info.tokenAmount.uiAmount || 0), 0) >= config.holder_min;
+    } catch { return false; }
+  }
+
+  // a calendar reminder a week before the first bird would fly
+  $('ics').onclick = () => {
+    const next = Math.min(...mine.map((s) => s.dawn)), at = new Date((next - 7 * DAY) * 1000), end = new Date((next - 7 * DAY + 3600) * 1000);
+    const f = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+    const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//HOMER//post//EN', 'BEGIN:VEVENT', `UID:${next}-${wallet}@homersol.fun`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(at)}`, `DTEND:${f(end)}`, 'SUMMARY:Check in on HOMER', `DESCRIPTION:Your first letter flies on ${date(next)}. Open ${location.origin}/#/letters and press I'm home.`, 'BEGIN:VALARM', 'TRIGGER:-PT0M', 'ACTION:DISPLAY', 'DESCRIPTION:Check in on HOMER', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([body], { type: 'text/calendar' })); a.download = 'homer-check-in.ics'; a.click();
+  };
+  $('mailLink').onclick = () => {
+    const to = [...new Set(mine.map((s) => s.heir))];
+    navigator.clipboard?.writeText(to.map((h) => `${location.origin}/#/collect/${h}`).join('\n'));
+    status(to.length === 1 ? 'Link copied. Give it to your recipient.' : `${to.length} links copied, one per recipient.`);
+  };
+
+  // ---------- collect ----------
+  async function collect(addr) {
+    if (addr) $('who').value = addr;
+    else if (wallet && !$('who').value) $('who').value = wallet;
+    const a = $('who').value.trim();
+    if (!a) { $('mail').innerHTML = ''; return; }
+    try {
+      const h = await api('/v1/heir/' + encodeURIComponent(a));
+      if (!h.seals.length) { $('mail').innerHTML = '<div class="empty">No letters addressed to this wallet.</div>'; return; }
+      const me = wallet === a;
+      $('mail').innerHTML = `<div class="panel"><div class="scroll"><table><tr><th>WHAT</th><th>HOW MUCH</th><th>FROM</th><th>FLIES ON</th><th></th></tr>${h.seals.map((s, i) => `<tr><td>${esc(sym(s.mint, h.assets))}</td><td class="addr">${fmt(s.amount, h.assets[s.mint]?.decimals)}</td><td class="addr">${esc(short(s.owner))}</td><td>${s.dawn <= h.now ? '<span class="chip flown">flown, ready</span>' : `${date(s.dawn)} · in ${until(s.dawn)}`}</td><td class="acts">${s.dawn <= h.now ? (me ? `<button class="btn small" data-collect="${i}" type="button">Collect</button>` : '<span class="note">connect as the recipient</span>') : ''}</td></tr>`).join('')}</table></div><p class="note" style="margin-top:12px">Until it flies, the sender can check in or take it back. Collecting needs about 0.003 SOL in this wallet for the fee.</p></div>`;
+      $('mail').querySelectorAll('[data-collect]').forEach((b) => (b.onclick = async () => {
+        try {
+          status('Sign to collect…', false, true);
+          await sendAll([{ ixs: K.claim({ heir: new W.PublicKey(wallet), e: asLetter(h.seals[Number(b.dataset.collect)]) }), units: 120000 }]);
+          status('Collected. It is in your wallet.');
+          setTimeout(() => collect(a), 2500);
+        } catch (e) { failed(e); }
+      }));
+    } catch (e) { status(e.message, true); }
+  }
+  $('collectForm').onsubmit = (e) => { e.preventDefault(); location.hash = '#/collect/' + $('who').value.trim(); };
+
+  // ---------- pages ----------
+  function route() {
+    const [, page = '', arg] = location.hash.split('/');
+    const id = ['letters', 'collect', 'rules'].includes(page) ? page : 'home';
+    document.querySelectorAll('.page').forEach((p) => p.classList.toggle('on', p.id === 'p-' + id));
+    document.querySelectorAll('nav a').forEach((a) => a.classList.toggle('on', a.dataset.r === id));
+    if (id === 'home') home();
+    if (id === 'letters') letters();
+    if (id === 'collect') collect(arg ? decodeURIComponent(arg) : null);
+    window.scrollTo(0, 0);
+  }
+  addEventListener('hashchange', route);
+  api('/v1/config').then((c) => {
+    config = c;
+    if (c.token) { $('caRow').style.display = 'flex'; $('ca').textContent = c.token; $('buy').href = 'https://pump.fun/coin/' + c.token; $('copyCa').onclick = () => { navigator.clipboard?.writeText(c.token); status('Address copied.'); }; $('tokenText').textContent = `Check-ins are always free. Holders of $HOMER (${c.token}) post letters for free; others pay ${c.fee_lamports / 1e9} SOL postage for a new letter, and all of it buys back $HOMER.`; }
+  }).catch(() => {});
+  route();
+})();
+</script>
+</body>
+</html>

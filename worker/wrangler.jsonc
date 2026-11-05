@@ -1,0 +1,20 @@
+{
+  "name": "homer",
+  "main": "src/index.js",
+  "compatibility_date": "2026-01-01",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "homersol.fun", "custom_domain": true },
+    { "pattern": "www.homersol.fun", "custom_domain": true }
+  ],
+  "assets": { "directory": "../site", "binding": "ASSETS", "run_worker_first": ["/rpc", "/v1/*"] },
+  "vars": {
+    // flat fee in lamports for a new letter (0.01 SOL), all of it buys back $HOMER; check-ins are always free. Charged only once FEE_WALLET is set.
+    "FEE_LAMPORTS": "10000000",
+    "FEE_WALLET": "F3VkvigoSvaCjmLHYtZAscnay78KGo1ZmwyZoALJRdr6",
+    // $HOMER mint after launch, and how much a holder needs to seal for free
+    "TOKEN_ADDRESS": "",
+    "HOLDER_MIN": "1000000"
+  }
+  // secret: SOL_RPC_URL (Helius mainnet URL with DAS)
+}
