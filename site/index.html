@@ -292,6 +292,20 @@ footer a{color:var(--mute)}
     $('asset').innerHTML = holdings.map((h, i) => `<option value="${i}">${esc(h.symbol)} · ${fmt(h.raw, h.decimals)} free</option>`).join('');
   }
 
+  // the loft is re-read at most every 20 s, so after a signature keep asking until the change shows up
+  async function settle() {
+    const before = JSON.stringify(mine.map((s) => s.escrow + ':' + s.dawn));
+    status('Signed. Sorting the mail, this takes up to a minute…', false, true);
+    for (let i = 0; i < 16; i++) {
+      await new Promise((r) => setTimeout(r, 5000));
+      try {
+        const w = await api('/v1/will/' + wallet);
+        if (JSON.stringify(w.seals.map((s) => s.escrow + ':' + s.dawn)) !== before) { mine = w.seals; assets = { ...assets, ...w.assets }; paintLetters(w.now); status('Done. Your letters are up to date.'); return; }
+      } catch {}
+    }
+    status('Signed. The list may take another minute to show it.');
+  }
+
   async function letters() {
     if (!wallet) { $('lettersIntro').innerHTML = 'Connect your wallet to see and write your letters. <button class="btn small" id="c2" type="button">Connect</button>'; $('c2').onclick = connect; $('lettersPanel').style.display = $('writePanel').style.display = 'none'; return; }
     $('lettersIntro').textContent = 'Each letter below flies to its recipient on the date shown, unless you come home first.';
@@ -332,7 +346,7 @@ footer a{color:var(--mute)}
         await sendAll([{ ixs: K.unseal({ owner: new W.PublicKey(wallet), e: asLetter(s) }), units: 200000 }]);
         status('Back in your wallet.');
       }
-      setTimeout(letters, 2500);
+      settle();
     } catch (err) { failed(err); }
   });
 
@@ -345,7 +359,7 @@ footer a{color:var(--mute)}
       status(`Sign to check in on ${list.length} letter${list.length === 1 ? '' : 's'}…`, false, true);
       await sendAll(list);
       status('Home. Every letter has a new date.');
-      setTimeout(letters, 2500);
+      settle();
     } catch (e) { failed(e); }
     $('home').disabled = false;
   };
@@ -369,7 +383,7 @@ footer a{color:var(--mute)}
       await sendAll([{ ixs: r.ixs, base, units: 220000 }]);
       status(`Posted. It flies to ${short(to.toBase58())} on ${date(now + days * DAY)} unless you come home first.`);
       $('amount').value = ''; $('to').value = '';
-      setTimeout(letters, 2500);
+      settle();
     } catch (err) { failed(err); }
     $('sendBtn').disabled = false;
   };

@@ -10,7 +10,7 @@
 const LOCKER = 'LocpQgucEQHbqNABEYvBvwoxCPsSbG91A1QaQhQQqjn';
 const WSOL = 'So11111111111111111111111111111111111111112';
 const ALLOWED = new Set(['getAccountInfo', 'getMultipleAccounts', 'getBalance', 'getLatestBlockhash', 'getTokenAccountsByOwner', 'sendTransaction', 'simulateTransaction', 'getSignatureStatuses']);
-const INDEX_TTL = 60, MAX_BODY = 64 * 1024;
+const INDEX_TTL = 20, MAX_BODY = 64 * 1024;
 const cors = { 'access-control-allow-origin': '*', 'access-control-allow-methods': 'GET, POST, OPTIONS', 'access-control-allow-headers': 'content-type' };
 const json = (body, status = 200, extra = {}) => new Response(JSON.stringify(body), { status, headers: { ...cors, 'content-type': 'application/json', 'cache-control': 'no-store', ...extra } });
 
