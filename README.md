@@ -6,6 +6,7 @@ HOMER is a will for your Solana wallet. You leave SOL or tokens to someone as a 
 
 - Site: https://homersol.fun
 - X: https://x.com/homerdotfun
+- $HOMER: `EVNuBvvk5RgqKVStMEV9ha9nnZ3ZPeUVS1byL4Udpump` (not needed to write or collect a letter; holders of 1M post letters without postage)
 
 ## How it works
 

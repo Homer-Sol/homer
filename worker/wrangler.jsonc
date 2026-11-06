@@ -13,7 +13,7 @@
     "FEE_LAMPORTS": "10000000",
     "FEE_WALLET": "F3VkvigoSvaCjmLHYtZAscnay78KGo1ZmwyZoALJRdr6",
     // $HOMER mint after launch, and how much a holder needs to seal for free
-    "TOKEN_ADDRESS": "",
+    "TOKEN_ADDRESS": "EVNuBvvk5RgqKVStMEV9ha9nnZ3ZPeUVS1byL4Udpump",
     "HOLDER_MIN": "1000000"
   }
   // secret: SOL_RPC_URL (Helius mainnet URL with DAS)
