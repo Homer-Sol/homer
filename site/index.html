@@ -201,6 +201,8 @@ footer a{color:var(--mute)}
 <footer><div class="airmail"></div>HOMER POST · If I don't come home, the bird flies. · <a href="#/rules">Postal rules</a> · <a href="will.js" target="_blank" rel="noopener">will.js</a> · <a href="https://x.com/homerdotfun" target="_blank" rel="noopener">x.com/homerdotfun</a> · <a href="https://github.com/Homer-Sol/homer" target="_blank" rel="noopener">GitHub</a></footer>
 <div id="status"></div>
 
+<!-- web3.js in the browser still reaches for Buffer in a few places; give it one before anyone presses a button -->
+<script type="module">import { Buffer } from 'https://cdn.jsdelivr.net/npm/buffer@6.0.3/+esm'; window.Buffer = window.Buffer || Buffer;</script>
 <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.0/lib/index.iife.min.js"></script>
 <script src="will.js"></script>
 <script>
@@ -240,7 +242,7 @@ footer a{color:var(--mute)}
 
   async function build(ixs, units) {
     const tx = new W.Transaction();
-    tx.add(W.ComputeBudgetProgram.setComputeUnitLimit({ units }), W.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 60000 }), ...ixs);
+    tx.add(...K.budget(units, 60000), ...ixs);
     tx.feePayer = new W.PublicKey(wallet);
     tx.recentBlockhash = (await rpc('getLatestBlockhash', [{ commitment: 'confirmed' }])).value.blockhash;
     return tx;

@@ -53,6 +53,12 @@
   });
   // a plain SOL transfer, built by hand: the browser build of web3.js needs Buffer for BigInt amounts
   const transfer = (from, to, lamports) => new TransactionInstruction({ programId: SystemProgram.programId, data: bytes([2, 0, 0, 0], BigInt(lamports)), keys: [acc(from, true, true), acc(to, false, true)] });
+  // compute limit and priority price, built by hand for the same reason: setComputeUnitPrice needs Buffer for its u64
+  const COMPUTE = new PublicKey('ComputeBudget111111111111111111111111111111');
+  const budget = (units, microLamports) => [
+    new TransactionInstruction({ programId: COMPUTE, data: bytes([2, units & 255, (units >> 8) & 255, (units >> 16) & 255, (units >>> 24) & 255]), keys: [] }),
+    new TransactionInstruction({ programId: COMPUTE, data: bytes([3], BigInt(microLamports)), keys: [] }),
+  ];
   const syncNative = (account) => new TransactionInstruction({ programId: TOKEN, data: Uint8Array.from([17]), keys: [acc(account, false, true)] });
   // closing a wrapped SOL account hands its SOL back to the owner
   const closeAccount = (account, owner) => new TransactionInstruction({ programId: TOKEN, data: Uint8Array.from([9]), keys: [acc(account, false, true), acc(owner, false, true), acc(owner, true, false)] });
@@ -171,5 +177,5 @@
     return { escrow: new PublicKey(b.subarray(8, 40)), name: new TextDecoder().decode(b.subarray(44, 44 + len)) };
   }
 
-  return { LOCKER, TOKEN, TOKEN_2022, WSOL, NAME, transfer, seal, unseal, closeEscrow, renew, changeHeir, claim, readEscrow, readMetadata, ataOf, escrowOf, metadataOf };
+  return { LOCKER, TOKEN, TOKEN_2022, WSOL, NAME, transfer, budget, seal, unseal, closeEscrow, renew, changeHeir, claim, readEscrow, readMetadata, ataOf, escrowOf, metadataOf };
 });
